@@ -1,2 +1,2 @@
 # VTKQT
-Try to display 3D images used VTK in PYQT5.
+Try using VTK to display 3D medical data in pyqt5.
