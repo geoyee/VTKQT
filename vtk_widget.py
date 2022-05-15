@@ -41,7 +41,8 @@ class VTK_Widget(QWidget):
 
     def _surfaceMode(self) -> None:
         self.surface_extractor.SetInputConnection(self.reader.GetOutputPort())
-        self.surface_extractor.SetValue(0, -500)
+        self.surface_extractor.SetValue(0, 1)
+        self.slider.setValue(1)
         surface_normals = vtk.vtkPolyDataNormals()
         surface_normals.SetInputConnection(self.surface_extractor.GetOutputPort())
         surface_normals.SetFeatureAngle(60.0)

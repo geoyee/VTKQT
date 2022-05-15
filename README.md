@@ -1,11 +1,19 @@
 # VTKQT
-Try using VTK to display 3D medical data in pyqt5.
+基于VTK的自定义QWidget，可以方便插入PyQt的Layout中，可以将C×H×W的np.ndarray（分割结果）进行可视化显示。
 
-Reference from **[VTK_Medical_Visualization_PyQt5](https://github.com/its-kamel/VTK_Medical_Visualization_PyQt5)**.
+## 使用
 
-## TODO
+```python
+from vtk_widget import VTK_Widget
 
-- [x] Encapsulated as QWidget.
-- [x] Auto Size.
-- [x] Show multi-storey masks.
-- [ ] Segmentation test.
+...
+self.vtkWidget = VTK_Widget(self.centralwidget)
+self.vtkWidget.setObjectName("vtkWidget")
+self.verticalLayout.addWidget(self.vtkWidget)
+...
+```
+
+## 参考
+
+1.  [VTK_Medical_Visualization_PyQt5](https://github.com/its-kamel/VTK_Medical_Visualization_PyQt5)
+

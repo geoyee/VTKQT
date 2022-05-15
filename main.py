@@ -3,13 +3,14 @@ import typing
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from ui import Ui_MainWindow
 import SimpleITK as sitk
+from seg import LITSSeg
 
 
 def readNII(path: str) -> typing.Dict:
     ds = sitk.ReadImage(path)
     data = sitk.GetArrayFromImage(ds)
-    # == TODO: segmentation ==
-    # data = segmentation(data)
+    # == segmentation ==
+    data = LITSSeg("weight/model.pdparams").pridect(data)
     # ======
     spcing = ds.GetSpacing()
     return data, spcing
