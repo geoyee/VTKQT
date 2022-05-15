@@ -1,8 +1,10 @@
 import typing
+import numpy as np
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFrame, QSlider
 import vtk
 from vtkmodules.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
+from vtkmodules.util.vtkImageImportFromArray import vtkImageImportFromArray
 
 
 class VTK_Widget(QWidget):
@@ -18,7 +20,7 @@ class VTK_Widget(QWidget):
         self.vlayer.addWidget(self.interactor)
         self.vlayer.addWidget(self.slider)
 
-    def openVTK(self, path):
+    def showArray(self, data: np.ndarray, spacing: typing.Tuple) -> None:
         self.ren = vtk.vtkRenderer()
         try:
             self.interactor.GetRenderWindow().AddRenderer(self.ren)
@@ -26,15 +28,18 @@ class VTK_Widget(QWidget):
             return
         self.iren = self.interactor.GetRenderWindow().GetInteractor()
         try:
-            self.reader = vtk.vtkDICOMImageReader()
+            self.reader = vtkImageImportFromArray()
         except:
             return
-        self.reader.SetDataByteOrderToLittleEndian()
-        self.reader.SetDirectoryName(path)
+        self.slider.setMaximum(np.min(data))
+        self.slider.setMaximum(np.max(data))
+        self.reader.SetArray(data)
+        self.reader.SetDataSpacing(spacing)
+        self.reader.SetDataOrigin((0, 0, 0))
         self.reader.Update()
         self._surfaceMode()
 
-    def _surfaceMode(self):
+    def _surfaceMode(self) -> None:
         self.surface_extractor.SetInputConnection(self.reader.GetOutputPort())
         self.surface_extractor.SetValue(0, -500)
         surface_normals = vtk.vtkPolyDataNormals()
@@ -60,6 +65,6 @@ class VTK_Widget(QWidget):
         self.interactor.Start()
         self.interactor.show()
 
-    def _slot(self, val):
+    def _slot(self, val: int) -> None:
         self.surface_extractor.SetValue(0, val)
         self.interactor.update()

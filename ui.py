@@ -1,10 +1,10 @@
 from PyQt5.QtCore import QMetaObject, QCoreApplication
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QVBoxLayout
+from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout
 from vtk_widget import VTK_Widget
 
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow: QMainWindow) -> None:
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(500, 500)
         self.centralwidget = QWidget(MainWindow)
@@ -17,18 +17,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.retranslateUi(MainWindow)
         QMetaObject.connectSlotsByName(MainWindow)
-        self.vtkWidget.openVTK("data/Ankle")  # 加载图像
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, MainWindow: QMainWindow) -> None:
         _translate = QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QApplication(sys.argv)
-    MainWindow = QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
