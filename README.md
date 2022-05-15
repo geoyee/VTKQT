@@ -8,5 +8,4 @@ Reference from **[VTK_Medical_Visualization_PyQt5](https://github.com/its-kamel/
 - [x] Encapsulated as QWidget.
 - [x] Auto Size.
 - [x] Show multi-storey masks.
-- [ ] segmentation test.
-
+- [ ] Segmentation test.
