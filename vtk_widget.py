@@ -1,6 +1,6 @@
 import typing
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget, QFrame, QVBoxLayout, QSlider
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFrame, QSlider
 import vtk
 from vtkmodules.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 
@@ -55,7 +55,6 @@ class VTK_Widget(QWidget):
         self.ren.ResetCamera()
         self.ren.SetBackground(0, 0, 0)
         self.ren.ResetCameraClippingRange()
-        self.frame.setLayout(self.vlayer)
         self.interactor.Initialize()
         self.interactor.GetRenderWindow().Render()
         self.interactor.Start()

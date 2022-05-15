@@ -17,8 +17,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.retranslateUi(MainWindow)
         QMetaObject.connectSlotsByName(MainWindow)
-        # 加载图像
-        self.vtkWidget.openVTK("C:/Users/Geoyee/Desktop/VTK_Medical_Visualization_PyQt5-main/data/Head")
+        self.vtkWidget.openVTK("data/Ankle")  # 加载图像
 
     def retranslateUi(self, MainWindow):
         _translate = QCoreApplication.translate
