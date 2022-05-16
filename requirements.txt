@@ -1,2 +1,7 @@
+# base
 PyQt5
 vtk>=8.2.0
+
+# for test
+paddle
+paddleseg

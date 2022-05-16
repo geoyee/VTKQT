@@ -19,9 +19,9 @@ class LITSSeg(object):
         preds = []
         for i in range(imgs.shape[0]):
             img = imgs[i, :, :]
-            img[img > 200] = 200
-            img[img < -200] = -200
-            img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+            img[img > 255] = 255
+            img[img < 0] = 0
+            img = cv2.cvtColor(img.astype("uint8"), cv2.COLOR_GRAY2RGB)
             img, _ = self.transforms(img)
             img = paddle.to_tensor(img[None], dtype="float32")
             pred = self.model(img)

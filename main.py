@@ -6,14 +6,11 @@ import SimpleITK as sitk
 from seg import LITSSeg
 
 
-def readNII(path: str) -> typing.Dict:
+def readNII(path: str) -> typing.Tuple:
     ds = sitk.ReadImage(path)
     data = sitk.GetArrayFromImage(ds)
-    # == segmentation ==
-    data = LITSSeg("weight/model.pdparams").pridect(data)
-    # ======
-    spcing = ds.GetSpacing()
-    return data, spcing
+    data = LITSSeg("weight/model.pdparams").pridect(data)  # seg
+    return data, ds.GetSpacing()
 
 
 if __name__ == "__main__":
@@ -23,7 +20,7 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     # load image
-    nii_path = "data/volume-0.nii"
+    nii_path = "data/volume-21.nii"
     data, spcing = readNII(nii_path)
     ui.vtkWidget.showArray(data, spcing)
     sys.exit(app.exec_())
