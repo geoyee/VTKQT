@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QMetaObject, QCoreApplication
 from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout
-from vtk_widget import VTK_Widget
+from vtk_widget import VTKWidget
 
 
 class Ui_MainWindow(object):
@@ -11,7 +11,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.vtkWidget = VTK_Widget(self.centralwidget)
+        self.vtkWidget = VTKWidget(self.centralwidget)
         self.vtkWidget.setObjectName("vtkWidget")
         self.verticalLayout.addWidget(self.vtkWidget)
         MainWindow.setCentralWidget(self.centralwidget)
