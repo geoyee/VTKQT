@@ -4,13 +4,26 @@ from PyQt5.QtWidgets import QMainWindow, QApplication
 from ui import Ui_MainWindow
 import SimpleITK as sitk
 from seg import LITSSeg
+import numpy as np
+import random
 
 
-def readNII(path: str) -> typing.Tuple:
+def read_nii(path: str) -> typing.Tuple:
     ds = sitk.ReadImage(path)
     data = sitk.GetArrayFromImage(ds)
     # data = LITSSeg("weight/model.pdparams").pridect(data)  # seg
     return data, ds.GetSpacing()
+
+
+def get_color_map(number: int) -> typing.List:
+    colors = []
+    for _ in range(number):
+        colors.append([
+            random.randint(0, 255),
+            random.randint(0, 255),
+            random.randint(0, 255)
+        ])
+    return colors
 
 
 if __name__ == "__main__":
@@ -22,6 +35,10 @@ if __name__ == "__main__":
     # load image
     # nii_path = "data/volume-21.nii"
     nii_path = "data/segmentation-21.nii"
-    data, spcing = readNII(nii_path)
-    ui.vtkWidget.showArray(data, spcing)
+    data, spcing = read_nii(nii_path)
+    ui.vtkWidget.show_array(
+        data, 
+        spcing, 
+        get_color_map(len(np.unique(data)))
+    )
     sys.exit(app.exec_())
