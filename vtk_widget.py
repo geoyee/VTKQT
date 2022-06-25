@@ -12,16 +12,29 @@ class VTKWidget(QWidget):
         super().__init__(parent)
         self.setObjectName("vtkWidget")
         self.vlayer = QVBoxLayout(self)
-        self._init()
         # default setting
         self.smoothing_iterations = 10
         self.pass_band = 0.005
         self.feature_angle = 120
         # close outputwindow
         vtk.vtkFileOutputWindow().SetGlobalWarningDisplay(0)
-        # set background
-        self.renderer.SetBackground(vtk.vtkNamedColors().GetColor3d("black"))
-        self.interactor.Start()
+        self.init()
+
+    def init(self, clear: bool = True) -> None:
+        # remove
+        item = self.vlayer.itemAt(0)
+        self.vlayer.removeItem(item)
+        if item is not None and item.widget():
+            item.widget().deleteLater()
+        # add
+        self.renderer = vtk.vtkRenderer()
+        self.interactor = QVTKRenderWindowInteractor(self)
+        self.interactor.GetRenderWindow().AddRenderer(self.renderer)
+        self.vlayer.addWidget(self.interactor)
+        if clear:
+            # set background
+            self.renderer.SetBackground(vtk.vtkNamedColors().GetColor3d("black"))
+            self.interactor.Start()
 
     def show_array(self, data: np.ndarray, spacing: typing.Tuple, color_map: typing.List) -> None:
         print("color_map:", color_map)
@@ -42,18 +55,6 @@ class VTKWidget(QWidget):
             )
             mbds.SetBlock(iter, smoother.GetOutput())
         self._multidisplay(mbds, color_map)
-
-    def _init(self) -> None:
-        # remove
-        item = self.vlayer.itemAt(0)
-        self.vlayer.removeItem(item)
-        if item is not None and item.widget():
-            item.widget().deleteLater()
-        # add
-        self.renderer = vtk.vtkRenderer()
-        self.interactor = QVTKRenderWindowInteractor(self)
-        self.interactor.GetRenderWindow().AddRenderer(self.renderer)
-        self.vlayer.addWidget(self.interactor)
 
     def _get_mc_contour(self, setvalue: int) -> typing.Any:
         contour = vtk.vtkDiscreteMarchingCubes()
@@ -80,7 +81,7 @@ class VTKWidget(QWidget):
         return smoother
 
     def _multidisplay(self, obj: typing.Any, color_map: typing.List) -> None:
-        self._init()
+        self.init(False)
         mapper = vtk.vtkCompositePolyDataMapper2()
         mapper.SetInputDataObject(obj)
         cdsa = vtk.vtkCompositeDataDisplayAttributes()
